@@ -50,9 +50,9 @@ SET default_table_access_method = heap;
 CREATE TABLE public.black_hole (
     black_hole_id integer NOT NULL,
     name character varying NOT NULL,
+    star_id integer,
     serial_code character varying,
-    type text,
-    planet_id integer
+    hole_type text
 );
 
 
@@ -86,10 +86,10 @@ ALTER SEQUENCE public.black_hole_black_hole_id_seq OWNED BY public.black_hole.bl
 
 CREATE TABLE public.galaxy (
     galaxy_id integer NOT NULL,
-    name character varying NOT NULL,
-    distance_in_light_years numeric,
+    name character varying,
+    distance_in_light_years integer,
     galaxy_type text,
-    description text
+    description text NOT NULL
 );
 
 
@@ -124,9 +124,9 @@ ALTER SEQUENCE public.galaxy_galaxy_id_seq OWNED BY public.galaxy.galaxy_id;
 CREATE TABLE public.moon (
     moon_id integer NOT NULL,
     name character varying NOT NULL,
+    planet_id integer,
     is_spherical boolean,
-    gravity_in_ms2 integer,
-    planet_id integer
+    gravity_in_ms2 integer
 );
 
 
@@ -160,10 +160,10 @@ ALTER SEQUENCE public.moon_moon_id_seq OWNED BY public.moon.moon_id;
 
 CREATE TABLE public.planet (
     planet_id integer NOT NULL,
-    name character varying NOT NULL,
+    name character varying,
     has_life boolean,
-    planet_type text,
-    star_id integer
+    star_id integer,
+    planet_type text NOT NULL
 );
 
 
@@ -197,10 +197,10 @@ ALTER SEQUENCE public.planet_planet_id_seq OWNED BY public.planet.planet_id;
 
 CREATE TABLE public.star (
     star_id integer NOT NULL,
-    name character varying NOT NULL,
-    spectral_type text,
+    name character varying,
     galaxy_id integer,
-    age_in_billion_years integer
+    spectral_type text NOT NULL,
+    age_in_billion_years numeric
 );
 
 
@@ -267,9 +267,9 @@ ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.st
 -- Data for Name: black_hole; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.black_hole VALUES (1, 'Sagittarius A', 'Sgr A', 'supermassive', 3);
-INSERT INTO public.black_hole VALUES (2, 'Cygnus X-1', 'Cyg X-1', 'stellar mass', 3);
-INSERT INTO public.black_hole VALUES (3, 'V616 Monocerotis', 'V616 Mon', 'stelar mass', 1);
+INSERT INTO public.black_hole VALUES (1, 'Sagittarius A', 6, 'Sgr A', 'supermassive');
+INSERT INTO public.black_hole VALUES (2, 'Cygnus X-1', 3, 'Cyg X-1', 'stellar mass');
+INSERT INTO public.black_hole VALUES (3, 'V616 Monocerotis', 1, 'V616 Mon', 'stellar mass');
 
 
 --
@@ -277,67 +277,67 @@ INSERT INTO public.black_hole VALUES (3, 'V616 Monocerotis', 'V616 Mon', 'stelar
 --
 
 INSERT INTO public.galaxy VALUES (1, 'Milky Way', 0, 'spiral', 'Huge collection of stars, dust, gas');
-INSERT INTO public.galaxy VALUES (3, 'Cartwheel', 400, 'lenticular', 'A result of high-speed collision');
-INSERT INTO public.galaxy VALUES (2, 'Andromeda', 2.537, 'spiral', 'A constellation in the northern emisphere');
+INSERT INTO public.galaxy VALUES (2, 'Cartwheel', 400, 'lenticular', 'Result of high-speed collision');
+INSERT INTO public.galaxy VALUES (3, 'Andromeda', 3, 'spiral', 'Constellation in the northern emisphere');
 INSERT INTO public.galaxy VALUES (4, 'Mayalls', 450, 'interacting', 'Ring shaped galaxy and long tailed companion');
-INSERT INTO public.galaxy VALUES (5, 'Peekaboo', 20, 'Irregular compact blue dwarf', 'Just started emerging and may reveal secrets about the universe');
-INSERT INTO public.galaxy VALUES (6, 'Centaurus', 4.496, 'giant elliptical', 'Contains the closest active galactic nucleus to Earth');
+INSERT INTO public.galaxy VALUES (5, 'Peekaboo', 20, 'irrgular compact blue dwarf', 'Just started emerging and might reval secrets about the universe');
+INSERT INTO public.galaxy VALUES (6, 'Centaurus', 4, 'giant elliptical', 'Contains the closest active galactic nucleus to Earth');
 
 
 --
 -- Data for Name: moon; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.moon VALUES (1, 'The Moon', false, 2, 3);
-INSERT INTO public.moon VALUES (2, 'Phobos', false, 0, 1);
-INSERT INTO public.moon VALUES (3, 'Deimos', false, 0, 1);
-INSERT INTO public.moon VALUES (4, 'Titan', true, 1, 2);
-INSERT INTO public.moon VALUES (5, 'Elara', false, 0, 2);
-INSERT INTO public.moon VALUES (6, 'Europa', true, 1, 5);
-INSERT INTO public.moon VALUES (7, 'Callisto', true, 2, 5);
-INSERT INTO public.moon VALUES (8, 'Amalthea', false, 0, 5);
-INSERT INTO public.moon VALUES (9, 'Mimas', false, 0, 6);
-INSERT INTO public.moon VALUES (10, 'Hyperion', false, 0, 6);
-INSERT INTO public.moon VALUES (11, 'Telesto', false, 0, 6);
-INSERT INTO public.moon VALUES (12, 'Triton', true, 1, 8);
-INSERT INTO public.moon VALUES (13, 'Proteus', false, 0, 8);
-INSERT INTO public.moon VALUES (14, 'Hydra', false, 0, 9);
-INSERT INTO public.moon VALUES (15, 'Charon', true, 0, 9);
-INSERT INTO public.moon VALUES (16, 'Dysnomia', NULL, NULL, 10);
-INSERT INTO public.moon VALUES (17, 'MK2', NULL, NULL, 12);
-INSERT INTO public.moon VALUES (18, 'Lo', true, 2, 5);
-INSERT INTO public.moon VALUES (19, 'Methone', true, 0, 6);
-INSERT INTO public.moon VALUES (21, 'Aegir', false, NULL, 6);
+INSERT INTO public.moon VALUES (1, 'The moon', 3, false, 2);
+INSERT INTO public.moon VALUES (2, 'Phobos', 1, false, 0);
+INSERT INTO public.moon VALUES (3, 'Deimos', 1, false, 0);
+INSERT INTO public.moon VALUES (4, 'Titan', 2, false, 1);
+INSERT INTO public.moon VALUES (5, 'Elara', 2, false, 0);
+INSERT INTO public.moon VALUES (6, 'Europa', 5, true, 1);
+INSERT INTO public.moon VALUES (7, 'Callisto', 5, true, 2);
+INSERT INTO public.moon VALUES (8, 'Amalthea', 5, false, 0);
+INSERT INTO public.moon VALUES (9, 'Mimas', 6, false, 0);
+INSERT INTO public.moon VALUES (10, 'Hyperion', 6, false, 0);
+INSERT INTO public.moon VALUES (11, 'Telesto', 6, false, 0);
+INSERT INTO public.moon VALUES (12, 'Triton', 8, true, 1);
+INSERT INTO public.moon VALUES (13, 'Proteus', 8, false, 0);
+INSERT INTO public.moon VALUES (14, 'Hydra', 9, false, 0);
+INSERT INTO public.moon VALUES (15, 'Charon', 9, true, 0);
+INSERT INTO public.moon VALUES (16, 'Dysnomia', 10, NULL, NULL);
+INSERT INTO public.moon VALUES (17, 'MK2', 12, NULL, NULL);
+INSERT INTO public.moon VALUES (18, 'Lo', 5, true, 2);
+INSERT INTO public.moon VALUES (19, 'Methone', 6, true, 0);
+INSERT INTO public.moon VALUES (20, 'Aegir', 6, false, NULL);
 
 
 --
 -- Data for Name: planet; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.planet VALUES (1, 'Mercury', false, 'terrestrial', 1);
-INSERT INTO public.planet VALUES (2, 'Venus', true, 'terrestrial', 7);
-INSERT INTO public.planet VALUES (3, 'Earth', true, 'terrestrial', 7);
-INSERT INTO public.planet VALUES (4, 'Mars', true, 'rocky', 7);
-INSERT INTO public.planet VALUES (5, 'Jupiter', false, 'gas giant', 7);
-INSERT INTO public.planet VALUES (6, 'Saturn', false, 'gas giant', 7);
-INSERT INTO public.planet VALUES (7, 'Uranus', false, 'ice giant', 7);
-INSERT INTO public.planet VALUES (8, 'Neptune', false, 'ice giant', 7);
-INSERT INTO public.planet VALUES (9, 'Pluto', false, 'dwarf', 7);
-INSERT INTO public.planet VALUES (10, 'Eris', false, 'dwarf', 7);
-INSERT INTO public.planet VALUES (11, 'Ceres', false, 'dwarf', 7);
-INSERT INTO public.planet VALUES (12, 'Makemake', false, 'dwarf', 7);
+INSERT INTO public.planet VALUES (1, 'Mercury', false, 6, 'terrestrial');
+INSERT INTO public.planet VALUES (2, 'Venus', true, 6, 'terrestrial');
+INSERT INTO public.planet VALUES (3, 'Earth', true, 6, 'terrestrial');
+INSERT INTO public.planet VALUES (4, 'Mars', true, 6, 'rocky');
+INSERT INTO public.planet VALUES (5, 'Jupiter', false, 6, 'gas giant');
+INSERT INTO public.planet VALUES (6, 'Saturn', false, 6, 'gas giant');
+INSERT INTO public.planet VALUES (7, 'Uranus', false, 6, 'ice giant');
+INSERT INTO public.planet VALUES (8, 'Neptune', false, 6, 'ice giant');
+INSERT INTO public.planet VALUES (9, 'Pluto', false, 6, 'dwarf');
+INSERT INTO public.planet VALUES (10, 'Eris', false, 6, 'dwarf');
+INSERT INTO public.planet VALUES (11, 'Ceres', false, 6, 'dwarf');
+INSERT INTO public.planet VALUES (12, 'Makemake', false, 6, 'dwarf');
 
 
 --
 -- Data for Name: star; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.star VALUES (1, 'The Sun', 'G2V', 1, 5);
-INSERT INTO public.star VALUES (2, 'Rigel', 'B8lab', 1, 8);
-INSERT INTO public.star VALUES (3, 'Vega', 'A0V', 1, 455);
-INSERT INTO public.star VALUES (5, 'Betelgeuse', 'M2lab', 1, 10);
-INSERT INTO public.star VALUES (6, 'Stephenson 2-18', 'M6', 1, 17);
-INSERT INTO public.star VALUES (7, 'Proxima Centauri', 'M5.5 Ve', 1, 5);
+INSERT INTO public.star VALUES (1, 'The Sun', 1, 'G2V', 4.6);
+INSERT INTO public.star VALUES (2, 'Rigel', 1, 'B8lab', 8);
+INSERT INTO public.star VALUES (3, 'Vega', 1, 'A0V', 455);
+INSERT INTO public.star VALUES (4, 'Betelgeuse', 1, 'M2lab', 10);
+INSERT INTO public.star VALUES (5, 'Stephenson 2-18', 1, 'M6', 17);
+INSERT INTO public.star VALUES (6, 'Proxima Centauri', 1, 'M5.5 Ve', 5);
 
 
 --
@@ -358,7 +358,7 @@ SELECT pg_catalog.setval('public.galaxy_galaxy_id_seq', 6, true);
 -- Name: moon_moon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.moon_moon_id_seq', 51, true);
+SELECT pg_catalog.setval('public.moon_moon_id_seq', 20, true);
 
 
 --
@@ -372,7 +372,7 @@ SELECT pg_catalog.setval('public.planet_planet_id_seq', 12, true);
 -- Name: star_star_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.star_star_id_seq', 7, true);
+SELECT pg_catalog.setval('public.star_star_id_seq', 6, true);
 
 
 --
@@ -408,11 +408,27 @@ ALTER TABLE ONLY public.galaxy
 
 
 --
+-- Name: moon moon_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.moon
+    ADD CONSTRAINT moon_name_key UNIQUE (name);
+
+
+--
 -- Name: moon moon_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.moon
     ADD CONSTRAINT moon_pkey PRIMARY KEY (moon_id);
+
+
+--
+-- Name: planet planet_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.planet
+    ADD CONSTRAINT planet_name_key UNIQUE (name);
 
 
 --
@@ -424,6 +440,14 @@ ALTER TABLE ONLY public.planet
 
 
 --
+-- Name: star star_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.star
+    ADD CONSTRAINT star_name_key UNIQUE (name);
+
+
+--
 -- Name: star star_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
@@ -432,51 +456,27 @@ ALTER TABLE ONLY public.star
 
 
 --
--- Name: moon unique_moon_name; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.moon
-    ADD CONSTRAINT unique_moon_name UNIQUE (name);
-
-
---
--- Name: planet unique_name; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.planet
-    ADD CONSTRAINT unique_name UNIQUE (name);
-
-
---
--- Name: star unique_star_name; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.star
-    ADD CONSTRAINT unique_star_name UNIQUE (name);
-
-
---
--- Name: black_hole black_hole_nearest_planet_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: black_hole black_hole_star_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.black_hole
-    ADD CONSTRAINT black_hole_nearest_planet_id_fkey FOREIGN KEY (planet_id) REFERENCES public.planet(planet_id);
+    ADD CONSTRAINT black_hole_star_id_fkey FOREIGN KEY (star_id) REFERENCES public.star(star_id);
 
 
 --
--- Name: moon moon_main_planet_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: moon moon_planet_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.moon
-    ADD CONSTRAINT moon_main_planet_id_fkey FOREIGN KEY (planet_id) REFERENCES public.planet(planet_id);
+    ADD CONSTRAINT moon_planet_id_fkey FOREIGN KEY (planet_id) REFERENCES public.planet(planet_id);
 
 
 --
--- Name: planet planet_closest_star_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: planet planet_star_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.planet
-    ADD CONSTRAINT planet_closest_star_id_fkey FOREIGN KEY (star_id) REFERENCES public.star(star_id);
+    ADD CONSTRAINT planet_star_id_fkey FOREIGN KEY (star_id) REFERENCES public.star(star_id);
 
 
 --
