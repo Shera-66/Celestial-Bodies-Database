@@ -88,8 +88,7 @@ ALTER SEQUENCE public.games_game_id_seq OWNED BY public.games.game_id;
 
 CREATE TABLE public.teams (
     team_id integer NOT NULL,
-    name character varying NOT NULL,
-    qualified character varying NOT NULL
+    name character varying NOT NULL
 );
 
 
@@ -173,30 +172,30 @@ INSERT INTO public.games VALUES (32, 2014, 'Eighth-Final', 2, 24, 2, 1);
 -- Data for Name: teams; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.teams VALUES (1, 'France', 'yes');
-INSERT INTO public.teams VALUES (2, 'Belgium', 'yes');
-INSERT INTO public.teams VALUES (3, 'Croatia', 'yes');
-INSERT INTO public.teams VALUES (4, 'Russia', 'yes');
-INSERT INTO public.teams VALUES (5, 'England', 'yes');
-INSERT INTO public.teams VALUES (6, 'Brazil', 'yes');
-INSERT INTO public.teams VALUES (7, 'Uruguay', 'yes');
-INSERT INTO public.teams VALUES (8, 'Colombia', 'yes');
-INSERT INTO public.teams VALUES (9, 'Sweden', 'yes');
-INSERT INTO public.teams VALUES (10, 'Japan', 'yes');
-INSERT INTO public.teams VALUES (11, 'Mexico', 'yes');
-INSERT INTO public.teams VALUES (12, 'Denmark', 'yes');
-INSERT INTO public.teams VALUES (13, 'Spain', 'yes');
-INSERT INTO public.teams VALUES (14, 'Portugal', 'yes');
-INSERT INTO public.teams VALUES (15, 'Argentina', 'yes');
-INSERT INTO public.teams VALUES (16, 'Germany', 'yes');
-INSERT INTO public.teams VALUES (17, 'Netherlands', 'yes');
-INSERT INTO public.teams VALUES (18, 'Costa Rica', 'yes');
-INSERT INTO public.teams VALUES (19, 'Chile', 'yes');
-INSERT INTO public.teams VALUES (20, 'Nigeria', 'yes');
-INSERT INTO public.teams VALUES (21, 'Algeria', 'yes');
-INSERT INTO public.teams VALUES (22, 'Greece', 'yes');
-INSERT INTO public.teams VALUES (23, 'Switzerland', 'yes');
-INSERT INTO public.teams VALUES (24, 'United States', 'yes');
+INSERT INTO public.teams VALUES (1, 'France');
+INSERT INTO public.teams VALUES (2, 'Belgium');
+INSERT INTO public.teams VALUES (3, 'Croatia');
+INSERT INTO public.teams VALUES (4, 'Russia');
+INSERT INTO public.teams VALUES (5, 'England');
+INSERT INTO public.teams VALUES (6, 'Brazil');
+INSERT INTO public.teams VALUES (7, 'Uruguay');
+INSERT INTO public.teams VALUES (8, 'Colombia');
+INSERT INTO public.teams VALUES (9, 'Sweden');
+INSERT INTO public.teams VALUES (10, 'Japan');
+INSERT INTO public.teams VALUES (11, 'Mexico');
+INSERT INTO public.teams VALUES (12, 'Denmark');
+INSERT INTO public.teams VALUES (13, 'Spain');
+INSERT INTO public.teams VALUES (14, 'Portugal');
+INSERT INTO public.teams VALUES (15, 'Argentina');
+INSERT INTO public.teams VALUES (16, 'Germany');
+INSERT INTO public.teams VALUES (17, 'Netherlands');
+INSERT INTO public.teams VALUES (18, 'Costa Rica');
+INSERT INTO public.teams VALUES (19, 'Chile');
+INSERT INTO public.teams VALUES (20, 'Nigeria');
+INSERT INTO public.teams VALUES (21, 'Algeria');
+INSERT INTO public.teams VALUES (22, 'Greece');
+INSERT INTO public.teams VALUES (23, 'Switzerland');
+INSERT INTO public.teams VALUES (24, 'United States');
 
 
 --
