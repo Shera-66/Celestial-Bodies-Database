@@ -1,58 +1,121 @@
-#!/bin/bash
+--
+-- PostgreSQL database dump
+--
 
-PSQL="psql --username=freecodecamp --dbname=number_guess -t --no-align -c"
+-- Dumped from database version 12.9 (Ubuntu 12.9-2.pgdg20.04+1)
+-- Dumped by pg_dump version 12.9 (Ubuntu 12.9-2.pgdg20.04+1)
 
-echo "Enter your username:"
-read NAME
-CHECK_USER=$($PSQL "SELECT * FROM usernames WHERE username='$NAME';")
-if [[ -z $CHECK_USER ]]
-then
-  echo "Welcome, $NAME! It looks like this is your first time here."
-  NEW_USER=$($PSQL "INSERT INTO usernames(username, games_played) VALUES('$NAME', 1);")
-else
-  echo $CHECK_USER | while IFS=" |" read USER_ID USERNAME GAMES_PLAYED BEST_GAME_SCORE;
-  do
-    echo "Welcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME_SCORE guesses."
-    ((GAMES_PLAYED++))
-    INCREMENT_GAMES=$($PSQL "UPDATE usernames SET games_played = '$GAMES_PLAYED' WHERE username = '$NAME';")
-  done
-fi
-RANDOM_NUMBER=$((1 + RANDOM % 1000))
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
-echo "Guess the secret number between 1 and 1000:"
-read GUESS
+DROP DATABASE number_guess;
+--
+-- Name: number_guess; Type: DATABASE; Schema: -; Owner: freecodecamp
+--
 
-TRIES=1
+CREATE DATABASE number_guess WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
 
-while ! [[ $GUESS =~ ^[0-9]+$ ]]
-do
-  echo "That is not an integer, guess again:"
-  read GUESS
-done
 
-while ! [[ $RANDOM_NUMBER -eq $GUESS ]]
-do
-  if [[ $GUESS -gt $RANDOM_NUMBER ]]
-  then
-    echo "It's lower than that, guess again:"
-    ((TRIES++))
-    read GUESS
-  else [[ $GUESS -lt $RANDOM_NUMBER ]]
-    echo "It's higher than that, guess again:"
-    ((TRIES++))
-    read GUESS
-  fi
-done
-GAMES_PLAYED=$($PSQL "SELECT games_played FROM usernames WHERE username = '$NAME';")
-BEST_SCORE=$($PSQL "SELECT best_game_score FROM usernames WHERE username = '$NAME';")
+ALTER DATABASE number_guess OWNER TO freecodecamp;
 
-if [[ $GAMES_PLAYED -eq 1 ]]
-then
-  UPDATE_SCORE=$($PSQL "UPDATE usernames SET best_game_score = '$TRIES' WHERE username = '$NAME';")
-fi
+\connect number_guess
 
-if [[ $TRIES -lt $BEST_SCORE ]]
-then
-  UPDATE_NEW_SCORE=$($PSQL "UPDATE usernames SET best_game_score = '$TRIES' WHERE username = '$NAME';")
-fi
-echo "You guessed it in $TRIES tries. The secret number was $RANDOM_NUMBER. Nice job!"
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: usernames; Type: TABLE; Schema: public; Owner: freecodecamp
+--
+
+CREATE TABLE public.usernames (
+    user_id integer NOT NULL,
+    username character varying(22),
+    games_played integer,
+    best_game_score integer
+);
+
+
+ALTER TABLE public.usernames OWNER TO freecodecamp;
+
+--
+-- Name: usernames_user_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.usernames_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.usernames_user_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: usernames_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.usernames_user_id_seq OWNED BY public.usernames.user_id;
+
+
+--
+-- Name: usernames user_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.usernames ALTER COLUMN user_id SET DEFAULT nextval('public.usernames_user_id_seq'::regclass);
+
+
+--
+-- Data for Name: usernames; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+
+
+--
+-- Name: usernames_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.usernames_user_id_seq', 1, false);
+
+
+--
+-- Name: usernames usernames_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.usernames
+    ADD CONSTRAINT usernames_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: usernames usernames_username_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.usernames
+    ADD CONSTRAINT usernames_username_key UNIQUE (username);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
